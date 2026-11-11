@@ -3,7 +3,7 @@ import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { FieldValue, Timestamp, getFirestore } from "firebase-admin/firestore";
 import { logger } from "firebase-functions";
-import { defineJsonSecret, defineSecret } from "firebase-functions/params";
+import { defineSecret } from "firebase-functions/params";
 import { HttpsError, onCall, type CallableRequest } from "firebase-functions/v2/https";
 import {
   validarAlteracaoLead,
@@ -33,7 +33,10 @@ const opcoesPublicas = {
 } as const;
 
 const segredoRateLimit = defineSecret("RATE_LIMIT_SALT");
-const cloudinary = defineJsonSecret("CLOUDINARY_CONFIG");
+// defineSecret e não defineJsonSecret: no firebase-functions 6.6 a opção `secrets`
+// só reconhece SecretParam e o deploy falhava com "secrets/[object Object]".
+// O JSON é lido à mão em configuracaoCloudinary().
+const cloudinary = defineSecret("CLOUDINARY_CONFIG");
 
 type CloudinaryConfig = {
   apiKey: string;
@@ -110,7 +113,12 @@ function dataIso(valor: unknown): string | null {
 }
 
 function configuracaoCloudinary(): CloudinaryConfig {
-  const config = cloudinary.value() as Partial<CloudinaryConfig>;
+  let config: Partial<CloudinaryConfig> | null = null;
+  try {
+    config = JSON.parse(cloudinary.value()) as Partial<CloudinaryConfig>;
+  } catch {
+    // JSON inválido: cai no erro abaixo, sem mostrar o conteúdo do segredo nos logs
+  }
   if (
     !config ||
     typeof config.apiKey !== "string" ||
