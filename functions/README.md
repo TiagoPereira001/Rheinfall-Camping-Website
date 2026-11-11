@@ -72,6 +72,12 @@ pelas regras). Basta publicá-lo.
 O site (`npm run build` + Cloudflare Pages) não inclui nenhum destes dois
 deploys — são sempre manuais.
 
+## Limpeza automática dos limites de pedidos
+
+Os documentos de `securityRateLimits` apagam-se sozinhos depois de `expiraEm`
+(política TTL do Firestore, em `firestore.indexes.json`). Publica-se com
+`firebase deploy --only firestore:indexes`. Publicada a 2026-11-11.
+
 ## CORS
 
 `functions/src/index.ts` só aceita pedidos de `https://rheinfallcamping.pt`,
