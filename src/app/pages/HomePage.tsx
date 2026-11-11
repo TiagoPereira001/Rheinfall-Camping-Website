@@ -1,7 +1,8 @@
 import { Link } from "react-router";
+import { MessageCircle } from "lucide-react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useStructuredData } from "../hooks/useStructuredData";
-import { WHATSAPP_NUMBER, LOCATION } from "../data/config";
+import { WHATSAPP_NUMBER, LOCATION, whatsappLink } from "../data/config";
 
 const DADOS_ESTRUTURADOS = {
   "@context": "https://schema.org",
@@ -79,12 +80,23 @@ function HomePage() {
             <span className="block">Autocaravanas</span>
             <span className="block">usadas na Covilhã</span>
           </h1>
-          <Link
-            to="/stock"
-            className="inline-flex items-center bg-white text-black text-sm font-medium px-7 py-3.5 rounded-xl hover:bg-white/90 transition-colors"
-          >
-            Ver autocaravanas
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              to="/stock"
+              className="inline-flex items-center bg-white text-black text-sm font-medium px-7 py-3.5 rounded-xl hover:bg-white/90 transition-colors"
+            >
+              Ver autocaravanas
+            </Link>
+            <a
+              href={whatsappLink("Olá, tenho interesse nas vossas autocaravanas.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#25D366] text-black text-sm font-medium px-7 py-3.5 rounded-xl hover:bg-[#20bd5a] transition-colors"
+            >
+              <MessageCircle size={16} />
+              Falar por WhatsApp
+            </a>
+          </div>
         </div>
       </section>
 
