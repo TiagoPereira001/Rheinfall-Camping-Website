@@ -46,8 +46,27 @@ function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-white/60 text-xs">
+          <span className="text-white/60 text-xs text-center sm:text-left">
             © {new Date().getFullYear()} RheinfallCamping
+            {" · Vídeo do topo: "}
+            <a
+              href="https://www.pexels.com/video/aerial-footage-of-mountains-in-serra-de-estrela-portugal-9823119/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-white"
+            >
+              Afonso Oliveira
+            </a>
+            {" · Foto do cartão Vender: "}
+            <a
+              href="https://www.pexels.com/photo/an-rv-at-sunset-13601011/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-white"
+            >
+              Simeon Stoilov
+            </a>
+            {" (Pexels)"}
           </span>
           <div className="flex items-center gap-5">
             <Link to="/termos" className="text-white/60 hover:text-white text-xs transition-colors">

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Wrench } from "lucide-react";
+import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Pause, Play, Wrench } from "lucide-react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useStructuredData } from "../hooks/useStructuredData";
 import { WHATSAPP_NUMBER, LOCATION, whatsappLink } from "../data/config";
@@ -41,7 +41,8 @@ const CARTOES = [
     texto: "Se tem uma autocaravana para vender, deixe os dados. Nós respondemos.",
     para: "/vender",
     etiqueta: "Quero vender",
-    imagem: "/images/ford_laika/ford_laika_2.webp",
+    // Foto de Simeon Stoilov (Pexels, licença livre), creditada no rodapé
+    imagem: "/images/autocaravana-por-do-sol.webp",
   },
   {
     titulo: "Contactos",
@@ -56,6 +57,70 @@ const CARTOES = [
 const FOCO = "focus-visible:outline-2 focus-visible:outline-offset-4";
 // Botões: mudam de cor no hover e afundam um pouco ao carregar
 const PRESSAO = "active:scale-[0.98] transition-[background-color,transform] duration-150 motion-reduce:active:scale-100";
+
+// Vídeo do topo: Serra da Estrela ao amanhecer, por Afonso Oliveira (Pexels, licença
+// livre), creditado no rodapé. A imagem fixa é o primeiro ecrã; o vídeo entra por cima
+// só se o visitante não pediu menos movimento nem poupança de dados.
+function VideoTopo() {
+  const video = useRef<HTMLVideoElement>(null);
+  const [src, setSrc] = useState<string | null>(null);
+  const [aCorrer, setACorrer] = useState(false);
+
+  useEffect(() => {
+    const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const poupar = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    if (reduzido || poupar) return;
+    const estreito = window.matchMedia("(max-width: 767px)").matches;
+    setSrc(`/videos/serra-estrela-amanhecer-${estreito ? "540p" : "720p"}.mp4`);
+  }, []);
+
+  const alternar = () => {
+    const v = video.current;
+    if (!v) return;
+    if (v.paused) v.play().catch(() => {});
+    else v.pause();
+  };
+
+  return (
+    <>
+      <img
+        src="/images/serra-estrela-amanhecer.webp"
+        srcSet="/images/serra-estrela-amanhecer-mobile.webp 800w, /images/serra-estrela-amanhecer.webp 1600w"
+        sizes="100vw"
+        alt="Estrada de montanha na Serra da Estrela ao amanhecer, vista de cima"
+        // @ts-expect-error — minúsculas de propósito: React 18 não reconhece
+        // "fetchPriority" (camelCase) e o atributo real do DOM é lowercase
+        fetchpriority="high"
+        className="absolute inset-0 -z-10 w-full h-full object-cover object-[62%_50%]"
+      />
+      {src && (
+        <video
+          ref={video}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+          onPlaying={() => setACorrer(true)}
+          onPause={() => setACorrer(false)}
+          className={`absolute inset-0 -z-10 w-full h-full object-cover object-[62%_50%] transition-opacity duration-700 ease-out ${aCorrer ? "opacity-100" : "opacity-0"}`}
+        />
+      )}
+      {src && (
+        // Um vídeo que corre mais de 5 s tem de se poder parar (WCAG 2.2.2)
+        <button
+          type="button"
+          onClick={alternar}
+          aria-label={aCorrer ? "Pausar o vídeo" : "Continuar o vídeo"}
+          className={`absolute top-4 right-4 md:top-6 md:right-6 inline-flex items-center justify-center w-11 h-11 rounded-full bg-black/45 text-white border border-white/25 hover:bg-black/65 ${PRESSAO} focus-visible:outline-white ${FOCO}`}
+        >
+          {aCorrer ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+        </button>
+      )}
+    </>
+  );
+}
 
 // Loader dos momentos do taste-skill, copiado do kit para public/assets/moments.
 // Fica fora do bundle do Vite de propósito: é servido tal como está.
@@ -94,18 +159,14 @@ function HomePage() {
 
   return (
     <>
-      <section className="bg-[#1c1c1c]">
-        <img
-          src="/images/foto_padrao_desktop.webp"
-          srcSet="/images/foto_padrao_mobile.webp 800w, /images/foto_padrao_desktop.webp 1600w"
-          sizes="100vw"
-          alt="Autocaravana do stock RheinfallCamping"
-          // @ts-expect-error — minúsculas de propósito: React 18 não reconhece
-          // "fetchPriority" (camelCase) e o atributo real do DOM é lowercase
-          fetchpriority="high"
-          className="w-full aspect-[3/2] max-h-[70svh] object-cover object-center"
+      <section className="relative isolate overflow-hidden bg-[#1c1c1c] h-[min(calc(100svh-4rem),860px)] min-h-[560px] flex items-end">
+        <VideoTopo />
+        {/* Escurece só a base, onde está o texto; o céu fica limpo */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/30 to-black/0"
         />
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10 md:py-16 w-full min-w-0 motion-safe:animate-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:ease-out">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-14 md:pb-28 w-full min-w-0 motion-safe:animate-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:ease-out">
           <h1 className="font-serif text-white text-[2.6rem] sm:text-6xl lg:text-[5.25rem] font-medium leading-[1.02] tracking-[-0.02em] mb-9">
             <span className="block">Autocaravanas</span>
             <span className="block">usadas na Covilhã</span>
