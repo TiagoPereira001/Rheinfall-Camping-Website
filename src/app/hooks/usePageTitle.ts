@@ -5,7 +5,7 @@ const BASE = "RheinfallCamping";
 // não ficar com a descrição da última autocaravana vista (o _worker.js reescreve a
 // do index.html nas páginas /stock/<id>, por isso não se pode ler de lá).
 const DESCRICAO_BASE =
-  "Projeto familiar de compra e venda de autocaravanas usadas na Covilhã. Veículos inspecionados, atendimento direto e honesto, visitas por marcação.";
+  "Projeto familiar de compra e venda de autocaravanas usadas na Covilhã. Autocaravanas preparadas antes de vender, atendimento direto e honesto, visitas por marcação.";
 
 /**
  * Define o título da página e a meta description.

@@ -23,7 +23,7 @@ Mostrar as autocaravanas usadas disponíveis (compra e venda), de forma honesta 
 Negócio familiar de compra e venda de autocaravanas, com mais de 10 anos de experiência na zona da Covilhã. O que os distingue de um stand grande:
 
 - atendimento direto, sem pressão de vendas e sem surpresas;
-- só compra e venda — não há reparação, oficina nem manutenção para clientes;
+- só compra e venda — as autocaravanas são preparadas antes de vender, mas não há reparação, oficina nem manutenção para clientes;
 - pequenos e locais por escolha — "Não somos um stand grande e não queremos ser."
 
 Confirmado pelo utilizador que este posicionamento já está completo — nada a acrescentar.
