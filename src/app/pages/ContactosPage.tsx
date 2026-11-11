@@ -51,26 +51,6 @@ function ContactosPage() {
           </p>
         </div>
 
-        {/* Onde é a visita: a serra por cima da Covilhã e o centro da cidade
-            (ed1toR e Jose Cruz, Pexels, licença livre, créditos no rodapé) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
-          <img
-            src="/images/serra-estrela-cabeca-do-velho.webp"
-            alt="A Cabeça do Velho, na estrada da Covilhã para a Torre, com a Serra da Estrela ao fundo"
-            width={1600}
-            height={900}
-            className="sm:col-span-2 w-full h-full aspect-[16/10] object-cover object-[25%_50%] rounded-2xl"
-          />
-          <img
-            src="/images/covilha-centro.webp"
-            alt="Rua do centro da Covilhã, com o Teatro-Cine e um prédio de azulejos azuis"
-            width={900}
-            height={1200}
-            loading="lazy"
-            className="hidden sm:block w-full h-full object-cover rounded-2xl"
-          />
-        </div>
-
         {/* Contactos diretos */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
           <a

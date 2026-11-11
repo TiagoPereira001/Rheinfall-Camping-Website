@@ -4,7 +4,6 @@ import { WHATSAPP_NUMBER, LOCATION, phoneDisplay } from "../data/config";
 // Autores das imagens que não são das nossas autocaravanas (Pexels, licença livre)
 const CREDITOS = [
   { nome: "Afonso Oliveira", url: "https://www.pexels.com/video/aerial-footage-of-mountains-in-serra-de-estrela-portugal-9823119/" },
-  { nome: "ed1toR", url: "https://www.pexels.com/video/cinematic-montain-view-of-passing-by-car-in-serra-da-estrela-portugal-19540806/" },
   { nome: "Jose Cruz", url: "https://www.pexels.com/photo/historic-and-modern-architecture-in-covilha-40351953/" },
   { nome: "Simeon Stoilov", url: "https://www.pexels.com/photo/an-rv-at-sunset-13601011/" },
 ];
@@ -56,7 +55,7 @@ function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-white/60 text-xs text-center sm:text-left">
             © {new Date().getFullYear()} RheinfallCamping
-            {" · Imagens da região e do cartão Vender (Pexels): "}
+            {" · Imagens da página inicial (Pexels): "}
             {CREDITOS.map((c, i) => (
               <span key={c.url}>
                 {i > 0 && (i === CREDITOS.length - 1 ? " e " : ", ")}
