@@ -19,7 +19,7 @@ function Footer() {
               RheinfallCamping
             </span>
             <p className="text-white/70 text-sm leading-relaxed">
-              Compra e venda de autocaravanas usadas na Covilhã.
+              Compra e venda de autocaravanas usadas na Covilhã, preparadas antes de vender.
             </p>
           </div>
 

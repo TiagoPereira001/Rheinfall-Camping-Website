@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Pause, Play, Tag } from "lucide-react";
+import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Pause, Play, Sparkles } from "lucide-react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useStructuredData } from "../hooks/useStructuredData";
 import { WHATSAPP_NUMBER, LOCATION, whatsappLink } from "../data/config";
@@ -10,7 +10,7 @@ const DADOS_ESTRUTURADOS = {
   "@type": "AutoDealer",
   name: "RheinfallCamping",
   description:
-    "Compra e venda de autocaravanas usadas na zona da Covilhã. Há mais de 10 anos.",
+    "Compra e venda de autocaravanas usadas na zona da Covilhã, há mais de 10 anos. Cada autocaravana é preparada antes de ser vendida.",
   url: "https://rheinfallcamping.pt",
   telephone: `+${WHATSAPP_NUMBER}`,
   address: {
@@ -23,7 +23,7 @@ const DADOS_ESTRUTURADOS = {
 
 const SELOS = [
   { texto: "Mais de 10 anos na Covilhã", Icone: MapPin },
-  { texto: "Só compra e venda", Icone: Tag },
+  { texto: "Preparada antes de vender", Icone: Sparkles },
   { texto: "Atendimento direto, sem pressão", Icone: Handshake },
   { texto: "Fotos reais de cada autocaravana", Icone: Camera },
 ];
@@ -212,7 +212,7 @@ function HomePage() {
                 Isto começou com um gosto pessoal: o de pegar numa autocaravana e partir sem direção. Com o tempo, esse gosto tornou-se num projeto — comprar e vender autocaravanas há mais de 10 anos na zona da Covilhã.
               </p>
               <p className="text-black/70 text-[0.9375rem] leading-relaxed">
-                O que está no site é o que está à venda. A visita, na Covilhã, serve para ver o veículo como ele é.
+                Antes de vender, cada autocaravana é preparada como se fosse para nós. O que está no site é o que está à venda, e a visita, na Covilhã, serve para ver o veículo como ele é.
               </p>
               <p className="text-black/70 text-[0.9375rem] leading-relaxed">
                 Aqui falamos diretamente, sem pressão e sem surpresas. A visita é presencial e por marcação. O site serve para ver e para marcar essa conversa.
