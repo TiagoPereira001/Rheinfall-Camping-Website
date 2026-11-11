@@ -94,31 +94,26 @@ function HomePage() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-[#1c1c1c] h-[min(calc(100svh-4rem),860px)] min-h-[520px] flex items-end">
+      <section className="bg-[#1c1c1c]">
         <img
-          src="/images/foto_padrao_desktop.webp"
-          srcSet="/images/foto_padrao_mobile.webp 800w, /images/foto_padrao_desktop.webp 1600w"
-          sizes="100vw"
-          alt="Autocaravana do stock RheinfallCamping"
+          src="/images/familia-autocaravana.jpg"
+          alt="Pai e dois filhos à mesa dentro de uma autocaravana"
+          width={1920}
+          height={1280}
           // @ts-expect-error — minúsculas de propósito: React 18 não reconhece
           // "fetchPriority" (camelCase) e o atributo real do DOM é lowercase
           fetchpriority="high"
-          className="absolute inset-0 -z-10 w-full h-full object-cover object-[50%_65%]"
+          className="w-full aspect-[3/2] max-h-[70svh] object-cover object-center"
         />
-        {/* Escurece só a base, onde está o texto; o céu da foto fica limpo */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/40 to-black/5"
-        />
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-16 md:pb-28 w-full min-w-0 motion-safe:animate-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:ease-out">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10 md:py-16 w-full min-w-0 motion-safe:animate-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:ease-out">
           <h1 className="font-serif text-white text-[2.6rem] sm:text-6xl lg:text-[5.25rem] font-medium leading-[1.02] tracking-[-0.02em] mb-9">
             <span className="block">Autocaravanas</span>
             <span className="block">usadas na Covilhã</span>
           </h1>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
             <Link
               to="/stock"
-              className={`inline-flex items-center gap-2 bg-white text-black text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-white/90 ${PRESSAO} focus-visible:outline-white ${FOCO}`}
+              className={`inline-flex items-center justify-center gap-2 bg-white text-black text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-white/90 ${PRESSAO} focus-visible:outline-white ${FOCO}`}
             >
               Ver autocaravanas
               <ArrowRight size={16} aria-hidden="true" />
@@ -127,7 +122,7 @@ function HomePage() {
               href={whatsappLink("Olá, tenho interesse nas vossas autocaravanas.")}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 bg-[#25D366] text-black text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-[#20bd5a] ${PRESSAO} focus-visible:outline-white ${FOCO}`}
+              className={`inline-flex items-center justify-center gap-2 bg-[#25D366] text-black text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-[#20bd5a] ${PRESSAO} focus-visible:outline-white ${FOCO}`}
             >
               <MessageCircle size={17} aria-hidden="true" />
               Falar por WhatsApp
