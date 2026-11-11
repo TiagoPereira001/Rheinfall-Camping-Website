@@ -1,5 +1,7 @@
 # Cloud Functions — RheinfallCamping
 
+Runtime: Node 22 (`firebase.json` e `engines` em `package.json`).
+
 Backend que trata de todas as escritas (veículos, pedidos de venda, upload de fotos).
 O Firestore está fechado a escrita direta (`firestore.rules`) — só estas funções, com
 a Admin SDK, conseguem escrever.

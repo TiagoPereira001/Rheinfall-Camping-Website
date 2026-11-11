@@ -5,14 +5,14 @@
 - `npm run build` — build produção (`vite build`)
 - `npm run typecheck` — `tsc --noEmit`, **correr sempre antes de considerar uma alteração terminada**
 - Lint: **não configurado** (sem ESLint no repo)
-- Testes: **não configurados** (sem test runner)
+- Testes: `cd functions && npm test` (build das functions + asserts de validação). Não há testes de interface.
 - Cloud Functions (`functions/`): `cd functions && npm run build` (tsc próprio, `tsconfig.json` separado, excluído do tsconfig raiz)
 
 ## Stack / arquitetura
 - React 18.3 + TypeScript + Vite 6 + React Router 7 (client-side, `BrowserRouter`)
 - Tailwind CSS v4 via `@tailwindcss/vite` — não adicionar `tailwindcss`/`autoprefixer` a `postcss.config.mjs`, fica vazio de propósito
 - Firebase: Firestore (leitura pública de `vehicles`) + Auth (login em `/admin`, custom claim `admin: true`) + **Cloud Functions** (todas as escritas)
-- Deploy do site: Cloudflare Pages, push para `main` publica automaticamente. Cloud Functions **não** publicam sozinhas — exigem `firebase deploy --only functions` manual
+- Deploy do site: Cloudflare Pages, push para `main` publica automaticamente. O trabalho entra primeiro no branch `dev`. O GitHub Actions (`.github/workflows/ci.yml`) tem de ficar verde em `dev` antes de um fast-forward para `main`. Cloud Functions **não** publicam sozinhas — exigem `firebase deploy --only functions` manual
 
 ## Padrões de pastas (seguir sempre)
 - `src/app/pages/` — uma página por rota; rotas registadas em `src/app/App.tsx`

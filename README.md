@@ -112,9 +112,9 @@ Só o `name` é obrigatório. Tudo o resto é opcional: o que não estiver preen
 
 ## Publicar
 
-O deploy do site é automático: cada `git push` para `main` desencadeia uma nova publicação na Cloudflare Pages.
+O deploy do site é automático: cada `git push` para `main` desencadeia uma nova publicação na Cloudflare Pages. O trabalho entra primeiro no branch `dev`. O GitHub Actions corre em `dev` e em `main` (typecheck, build do site e `npm test` das functions) e tem de ficar verde antes do fast-forward para `main`.
 
-Antes de fazer push, convém correr `npm run build` localmente para apanhar erros primeiro.
+Antes de fazer push, convém correr `npm run build` e `cd functions && npm test` localmente para apanhar erros primeiro.
 
 As Cloud Functions (`functions/`) **não** publicam sozinhas — exigem `firebase deploy --only functions` manual. Ver `functions/README.md` (ou a secção de Segurança abaixo) para o que precisa de estar configurado antes do primeiro deploy.
 
