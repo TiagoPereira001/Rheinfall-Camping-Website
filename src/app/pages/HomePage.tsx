@@ -49,7 +49,8 @@ const CARTOES = [
     texto: "A visita é na Covilhã, por marcação. Ligue ou escreva.",
     para: "/contactos",
     etiqueta: "Falar connosco",
-    imagem: "/images/dethleffs/foto_2.webp",
+    // Centro da Covilhã, foto de Jose Cruz (Pexels, licença livre), creditada no rodapé
+    imagem: "/images/covilha-centro.webp",
   },
 ];
 

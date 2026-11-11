@@ -1,6 +1,14 @@
 import { Link } from "react-router";
 import { WHATSAPP_NUMBER, LOCATION, phoneDisplay } from "../data/config";
 
+// Autores das imagens que não são das nossas autocaravanas (Pexels, licença livre)
+const CREDITOS = [
+  { nome: "Afonso Oliveira", url: "https://www.pexels.com/video/aerial-footage-of-mountains-in-serra-de-estrela-portugal-9823119/" },
+  { nome: "ed1toR", url: "https://www.pexels.com/video/cinematic-montain-view-of-passing-by-car-in-serra-da-estrela-portugal-19540806/" },
+  { nome: "Jose Cruz", url: "https://www.pexels.com/photo/historic-and-modern-architecture-in-covilha-40351953/" },
+  { nome: "Simeon Stoilov", url: "https://www.pexels.com/photo/an-rv-at-sunset-13601011/" },
+];
+
 function Footer() {
   return (
     <footer className="bg-black border-t border-white/5 mt-auto">
@@ -48,25 +56,20 @@ function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-white/60 text-xs text-center sm:text-left">
             © {new Date().getFullYear()} RheinfallCamping
-            {" · Vídeo do topo: "}
-            <a
-              href="https://www.pexels.com/video/aerial-footage-of-mountains-in-serra-de-estrela-portugal-9823119/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white"
-            >
-              Afonso Oliveira
-            </a>
-            {" · Foto do cartão Vender: "}
-            <a
-              href="https://www.pexels.com/photo/an-rv-at-sunset-13601011/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white"
-            >
-              Simeon Stoilov
-            </a>
-            {" (Pexels)"}
+            {" · Imagens da região e do cartão Vender (Pexels): "}
+            {CREDITOS.map((c, i) => (
+              <span key={c.url}>
+                {i > 0 && (i === CREDITOS.length - 1 ? " e " : ", ")}
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-white"
+                >
+                  {c.nome}
+                </a>
+              </span>
+            ))}
           </span>
           <div className="flex items-center gap-5">
             <Link to="/termos" className="text-white/60 hover:text-white text-xs transition-colors">
