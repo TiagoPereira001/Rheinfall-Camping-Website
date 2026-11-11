@@ -28,6 +28,8 @@ Negócio familiar de compra e venda de autocaravanas, com mais de 10 anos de exp
 
 Confirmado pelo utilizador que este posicionamento já está completo — nada a acrescentar.
 
+A estrutura das páginas públicas (hero, boas-vindas, faixa, três cartões, selos, stock em lista) toma como referência [caravanlux.com.pt](https://caravanlux.com.pt/). É referência de estrutura, não de marca: sem crédito, sem a palavra garantia como promessa, e sem os textos, as cores ou as fotos deles.
+
 ## Operating Context
 
 - Visitas são sempre presenciais e por marcação prévia — nunca instantâneas.

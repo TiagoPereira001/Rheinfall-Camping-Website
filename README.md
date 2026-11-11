@@ -71,7 +71,7 @@ src/
 ├── main.tsx                 Ponto de entrada, monta o router e a autenticação
 ├── app/
 │   ├── App.tsx              Rotas
-│   ├── components/          Header, Footer, VehicleCard, ImageUploader, ShareButtons
+│   ├── components/          Header, Footer, ImageUploader, ShareButtons
 │   ├── pages/               Home, Stock, VehicleDetail, Contactos, Vender, Admin, 404
 │   ├── hooks/               useVehicles (dados + cache), useAuth, usePageTitle
 │   ├── data/                config.ts (contactos, Cloudinary), vehicles.ts (navegação)

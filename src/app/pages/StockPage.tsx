@@ -1,9 +1,8 @@
 import { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useVehicles } from "../hooks/useVehicles";
+import { useVehicles, type Vehicle } from "../hooks/useVehicles";
 import { parseNumero, marcaDoNome } from "../lib/utils";
-import VehicleCard from "../components/VehicleCard";
 import { usePageTitle } from "../hooks/usePageTitle";
 
 
@@ -22,9 +21,64 @@ const OPCOES_PRECO = [
   { label: "Mais de € 100.000", min: 100000, max: Infinity },
 ];
 
+function LinhaStock({ v }: { v: Vehicle }) {
+  const vendida = v.status === "vendida";
+  const brevemente = v.status === "brevemente";
+  const foto = v.images?.[0] || v.image;
+  const marca = marcaDoNome(v.name);
+
+  return (
+    <article className="bg-white border border-black/10 rounded-2xl overflow-hidden flex flex-col sm:flex-row">
+      <div className="sm:w-64 shrink-0 bg-[#1c1c1c] h-48 sm:h-auto">
+        {foto ? (
+          <img
+            src={foto}
+            alt={`${v.name} — autocaravana`}
+            className={`w-full h-full object-cover ${vendida ? "grayscale opacity-70" : ""}`}
+          />
+        ) : null}
+      </div>
+      <div className="p-5 sm:p-6 flex flex-col flex-1 gap-3">
+        <div>
+          {marca && (
+            <p className="text-xs font-medium uppercase tracking-wider text-black/60 mb-1">
+              {marca}
+            </p>
+          )}
+          <h2 className="text-black text-xl font-medium leading-snug">{v.name}</h2>
+        </div>
+        <p className="text-black/70 text-sm">
+          {[v.year && `Ano ${v.year}`, v.km].filter(Boolean).join(" · ")}
+        </p>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
+          {vendida ? (
+            <span className="inline-block bg-[#b02020] text-white text-[0.6875rem] font-medium uppercase tracking-wider px-3 py-1.5 rounded-full">
+              Vendida
+            </span>
+          ) : (
+            <span className="text-black font-medium">
+              {brevemente && (
+                <span className="inline-block bg-[#C2A07A] text-black/80 text-[0.6875rem] font-medium uppercase tracking-wider px-3 py-1.5 rounded-full mr-3">
+                  Brevemente
+                </span>
+              )}
+              {v.price || "Preço sob consulta"}
+            </span>
+          )}
+          <Link
+            to={`/stock/${v.id}`}
+            className="inline-flex items-center bg-black text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-black/85 transition-colors"
+          >
+            Ver detalhes
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function StockPage() {
   usePageTitle("O nosso stock", "Veja as autocaravanas disponíveis. Preços, quilómetros, equipamento e fotos reais.");
-  const navigate = useNavigate();
   const { vehicles, loading, error } = useVehicles();
 
   const [precoIdx, setPrecoIdx] = useState(0);
@@ -108,17 +162,17 @@ function StockPage() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="mb-12">
           <h1 className="font-serif text-black text-4xl md:text-5xl font-medium mb-4">
-            O nosso Stock
+            Autocaravanas usadas
           </h1>
           <p className="text-black/60 text-sm max-w-xl">
-            Explore a nossa coleção de autocaravanas inspecionadas e prontas para a sua próxima viagem.
+            Foto, ano, quilómetros e preço. As que já foram vendidas continuam na lista, sem preço.
           </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="w-full lg:w-64 shrink-0">
             <div className="bg-white rounded-2xl p-6 border border-black/5 shadow-sm sticky top-24">
-              <h3 className="font-serif text-lg font-medium mb-6">Filtros</h3>
+              <h2 className="text-lg font-medium mb-6">Filtros</h2>
 
               <div className="space-y-6">
                 <div>
@@ -218,9 +272,9 @@ function StockPage() {
                     </button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                  <div className="flex flex-col gap-4">
                     {visiveis.map((v) => (
-                      <VehicleCard key={v.id} v={v} onClick={() => navigate(`/stock/${v.id}`)} />
+                      <LinhaStock key={v.id} v={v} />
                     ))}
                   </div>
                 )}

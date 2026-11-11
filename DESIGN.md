@@ -85,7 +85,7 @@ Este não é um showroom — é o quintal de uma família que há mais de 10 ano
 
 O sistema é predominantemente plano hoje — só duas sombras existem em todo o código (o menu móvel e o cartão "Tem interesse?"). A profundidade visual vem de contraste de cor, não de elevação. Confirmado com o utilizador: a direção para trabalho futuro é introduzir mais profundidade tátil (sombras suaves, cantos generosos) para que botões e cartões pareçam **suaves e convidativos**, não apenas sólidos.
 
-Um único acento serif (Playfair Display) marca os momentos mais importantes — o título da página de Stock, o cabeçalho "Filtros", o nome da autocaravana no cartão — como um preço escrito à mão num catálogo. Tudo o resto, incluindo a maioria dos títulos de página, usa Inter.
+Um único acento serif (Playfair Display) marca o título principal de cada página pública — o hero da home e o título da lista de stock. Tudo o resto usa Inter.
 
 **Key Characteristics:**
 - Blocos de cor sólida (preto/branco/dourado) em vez de gradientes ou sombras pesadas
@@ -99,7 +99,7 @@ Um único acento serif (Playfair Display) marca os momentos mais importantes —
 Paleta quente e contida — a cor é usada para significar estado (disponibilidade do stock), não para decorar.
 
 ### Primary
-- **Tinta** (`#000000`, `ink`): a cor de ação da interface — botões primários, texto de navegação ativo, fundo do cartão de cada autocaravana no stock. Usada também com opacidade decrescente (`/60` a `/80`) como hierarquia de texto secundário sobre fundos claros — nunca mais clara que `/60` em texto que precise de ser lido (ver a Regra do Piso de Contraste, abaixo).
+- **Tinta** (`#000000`, `ink`): a cor de ação da interface — botões primários, texto de navegação ativo, véu sobre as fotos grandes da home. Usada também com opacidade decrescente (`/60` a `/80`) como hierarquia de texto secundário sobre fundos claros — nunca mais clara que `/60` em texto que precise de ser lido (ver a Regra do Piso de Contraste, abaixo).
 
 ### Secondary
 - **Dourado Poeirento** (`#C2A07A`, `dourado-poeirento`): o acento de marca. Usado com moderação — na etiqueta "Brevemente" e no cartão de contacto "Tem interesse?" de cada autocaravana disponível. Porque o dourado é claro, todo o texto sobre ele é escuro (`text-black/80` ou `text-black/70`), nunca branco.
@@ -130,7 +130,7 @@ Paleta quente e contida — a cor é usada para significar estado (disponibilida
 **Character:** Um acento editorial raro sobre uma base de trabalho neutra — Playfair Display assina um título por página, no máximo; Inter faz o resto do trabalho sem chamar atenção a si próprio.
 
 ### Hierarchy
-- **Display** (500, `clamp(2.25rem, 4vw, 3rem)`/`text-4xl md:text-5xl`, leading 1.1, Playfair Display): reservado a três lugares no código atual — o título "O nosso Stock", o cabeçalho "Filtros" da barra lateral, e o nome da autocaravana no cartão de stock. Não está no título da página de detalhe do veículo nem nos restantes cabeçalhos de secção — esses usam Inter medium.
+- **Display** (500, Playfair Display): um título por página. Na home é "Autocaravanas usadas na Covilhã". No stock é "Autocaravanas usadas". Os outros cabeçalhos usam Inter medium.
 - **Headline** (500, `text-3xl md:text-4xl`, Inter): título de página quando não leva o acento serif (ex: detalhe do veículo, contactos, vender).
 - **Title** (500, `text-xl`/`text-2xl`, Inter): cabeçalhos de secção e cartão ("Descrição", "Tem interesse?").
 - **Body** (400, `0.9375rem` (15px), leading relaxed, Inter): texto corrido de parágrafo. Máximo confortável ~65ch, mas os contentores já limitam isso (`max-w-lg`/`max-w-2xl`).
@@ -141,7 +141,9 @@ Paleta quente e contida — a cor é usada para significar estado (disponibilida
 
 ## Layout
 
-Contentores centrados com larguras máximas por tipo de página: `max-w-2xl` para páginas legais (Privacidade, Termos), `max-w-5xl` para formulários (Contactos, Vender), `max-w-7xl` para o stock e a home. Gutter horizontal consistente `px-6 lg:px-10`. Ritmo vertical de secção `py-16 md:py-24`. A grelha de veículos é responsiva: 1 coluna em mobile, 2 em tablet (`sm:grid-cols-2`), 3 em desktop (`lg:grid-cols-3`), com `gap-5`.
+Contentores centrados com larguras máximas por tipo de página: `max-w-2xl` para páginas legais (Privacidade, Termos), `max-w-5xl` para formulários (Contactos, Vender), `max-w-7xl` para o stock e a home. Gutter horizontal consistente `px-6 lg:px-10`. Ritmo vertical de secção `py-16 md:py-24`.
+
+A home segue esta ordem: foto grande com o título, bloco de boas-vindas, faixa "Venha ver com calma. Decida sem pressa.", três cartões (Stock, Vender, Contactos) e quatro selos com factos do produto. O stock é uma lista: foto, marca, nome, ano, quilómetros, preço e "Ver detalhes". Uma autocaravana vendida fica na lista com o selo "Vendida" e sem preço. Os filtros continuam ao lado, em ecrã largo, e por cima, no telemóvel.
 
 ## Elevation & Depth
 
