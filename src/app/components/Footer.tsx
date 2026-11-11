@@ -46,17 +46,8 @@ function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-white/60 text-xs text-center sm:text-left">
+          <span className="text-white/60 text-xs">
             © {new Date().getFullYear()} RheinfallCamping
-            {" · "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:Family_playing_games_inside_a_camper_van_on_holiday.jpg"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white"
-            >
-              Foto: CruiseAmerica, CC BY-SA 4.0
-            </a>
           </span>
           <div className="flex items-center gap-5">
             <Link to="/termos" className="text-white/60 hover:text-white text-xs transition-colors">

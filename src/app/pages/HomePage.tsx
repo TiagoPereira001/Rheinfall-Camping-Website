@@ -96,10 +96,10 @@ function HomePage() {
     <>
       <section className="bg-[#1c1c1c]">
         <img
-          src="/images/familia-autocaravana.jpg"
-          alt="Pai e dois filhos à mesa dentro de uma autocaravana"
-          width={1920}
-          height={1280}
+          src="/images/foto_padrao_desktop.webp"
+          srcSet="/images/foto_padrao_mobile.webp 800w, /images/foto_padrao_desktop.webp 1600w"
+          sizes="100vw"
+          alt="Autocaravana do stock RheinfallCamping"
           // @ts-expect-error — minúsculas de propósito: React 18 não reconhece
           // "fetchPriority" (camelCase) e o atributo real do DOM é lowercase
           fetchpriority="high"
