@@ -1,4 +1,5 @@
-import { httpsCallable } from "firebase/functions";
+import { useState } from "react";
+import { FunctionsError, httpsCallable } from "firebase/functions";
 import { Trash2, Check, Clock } from "lucide-react";
 import { functions } from "../lib/firebase";
 import type { Lead } from "../hooks/useLeads";
@@ -21,16 +22,37 @@ type Props = {
   recarregar: () => void;
 };
 
+function textoDoErro(err: unknown, fallback: string) {
+  if (err instanceof FunctionsError && err.code === "functions/permission-denied") {
+    return "Esta conta não tem permissão de administrador.";
+  }
+  return fallback;
+}
+
 function LeadsPanel({ leads, aCarregar, erro, recarregar }: Props) {
+  const [erroAcao, setErroAcao] = useState("");
+
   const alternarTratado = async (l: Lead) => {
-    await setLeadTratado({ id: l.id, tratado: !l.tratado });
-    recarregar();
+    setErroAcao("");
+    try {
+      await setLeadTratado({ id: l.id, tratado: !l.tratado });
+      recarregar();
+    } catch (err) {
+      console.error(err);
+      setErroAcao(textoDoErro(err, "Não foi possível atualizar o pedido."));
+    }
   };
 
   const apagar = async (l: Lead) => {
     if (!confirm(`Apagar o pedido de ${l.nome || "sem nome"}?`)) return;
-    await deleteLead({ id: l.id });
-    recarregar();
+    setErroAcao("");
+    try {
+      await deleteLead({ id: l.id });
+      recarregar();
+    } catch (err) {
+      console.error(err);
+      setErroAcao(textoDoErro(err, "Não foi possível apagar o pedido."));
+    }
   };
 
   const porTratar = leads.filter((l) => !l.tratado).length;
@@ -48,6 +70,8 @@ function LeadsPanel({ leads, aCarregar, erro, recarregar }: Props) {
         {leads.length} {leads.length === 1 ? "pedido" : "pedidos"}
         {porTratar > 0 && ` · ${porTratar} por tratar`}
       </p>
+
+      {erroAcao && <p className="text-red-700 text-sm mb-4">{erroAcao}</p>}
 
       <div className="space-y-3">
         {leads.map((l) => (

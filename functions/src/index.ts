@@ -63,9 +63,12 @@ async function exigirAdmin(requisicao: CallableRequest<unknown>) {
 }
 
 function obterIp(requisicao: CallableRequest<unknown>) {
+  // O cliente pode escrever o início de X-Forwarded-For. O último valor é
+  // o que o proxy acrescenta. Confirmar o formato nos logs depois do deploy.
   const encaminhado = requisicao.rawRequest.headers["x-forwarded-for"];
-  const primeiro = Array.isArray(encaminhado) ? encaminhado[0] : encaminhado;
-  return primeiro?.split(",")[0]?.trim() || "desconhecido";
+  const texto = Array.isArray(encaminhado) ? encaminhado.join(",") : encaminhado;
+  const partes = texto?.split(",").map((parte) => parte.trim()).filter(Boolean) ?? [];
+  return partes[partes.length - 1] || "desconhecido";
 }
 
 async function limitarPedidos(requisicao: CallableRequest<unknown>) {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { httpsCallable } from "firebase/functions";
+import { FunctionsError, httpsCallable } from "firebase/functions";
 import { functions } from "../lib/firebase";
 
 export type Lead = {
@@ -25,7 +25,11 @@ export function useLeads() {
       setErro("");
     } catch (e) {
       console.error(e);
-      setErro("Não foi possível carregar os pedidos.");
+      setErro(
+        e instanceof FunctionsError && e.code === "functions/permission-denied"
+          ? "Esta conta não tem permissão de administrador."
+          : "Não foi possível carregar os pedidos."
+      );
     } finally {
       setACarregar(false);
     }

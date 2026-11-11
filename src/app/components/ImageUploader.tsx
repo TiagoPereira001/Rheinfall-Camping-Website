@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Upload, X } from "lucide-react";
-import { httpsCallable } from "firebase/functions";
+import { FunctionsError, httpsCallable } from "firebase/functions";
 import { functions } from "../lib/firebase";
 
 type Props = {
@@ -69,7 +69,11 @@ function ImageUploader({ urls, onChange }: Props) {
         novos.push(url);
       } catch (err) {
         console.error("Erro ao enviar foto para o Cloudinary:", err);
-        setErro(`Não foi possível enviar "${f.name}".`);
+        setErro(
+          err instanceof FunctionsError && err.code === "functions/permission-denied"
+            ? "Esta conta não tem permissão de administrador."
+            : `Não foi possível enviar "${f.name}".`
+        );
       }
       setProgresso((p) => ({ ...p, feitas: p.feitas + 1 }));
     }

@@ -2,6 +2,8 @@
 // Dá ao utilizador do Firebase Auth indicado o custom claim `admin: true`,
 // que é o que `functions/src/index.ts` (exigirAdmin) exige para deixar
 // gravar/apagar veículos ou ver os pedidos de venda.
+// Recusa se o email não estiver verificado: sem isso o login entra e as
+// gravações falham.
 //
 // Como correr:
 //   1. Na Consola do Firebase -> Definições do projeto -> Contas de serviço
@@ -27,6 +29,15 @@ initializeApp({ credential: applicationDefault() });
 getAuth()
   .getUserByEmail(email)
   .then(async (utilizador) => {
+    if (!utilizador.emailVerified) {
+      console.error(
+        `Recusado: ${email} não tem o email verificado. ` +
+          "Na Consola do Firebase, abre este utilizador e marca o email como verificado. " +
+          "Sem isso o /admin deixa entrar e cada gravação falha."
+      );
+      process.exit(1);
+    }
+
     await getAuth().setCustomUserClaims(utilizador.uid, { admin: true });
     console.log(`OK: ${email} (uid ${utilizador.uid}) agora tem admin: true.`);
     console.log("Precisa de voltar a fazer login para o token atualizar.");

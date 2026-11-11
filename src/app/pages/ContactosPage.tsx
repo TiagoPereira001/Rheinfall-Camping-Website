@@ -31,7 +31,7 @@ function ContactosPage() {
       `O meu contacto: ${form.telefone.trim()}`,
     ].filter(Boolean);
 
-    window.open(whatsappLink(linhas.join("\n")), "_blank", "noopener,noreferrer");
+    window.location.href = whatsappLink(linhas.join("\n"));
   };
 
   const inputClass =

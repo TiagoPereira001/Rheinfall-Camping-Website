@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { httpsCallable } from "firebase/functions";
+import { FunctionsError, httpsCallable } from "firebase/functions";
 import { LogOut, Plus, Pencil, Trash2, X } from "lucide-react";
 import { db, functions } from "../lib/firebase";
 import { useAuth, AuthProvider } from "../hooks/useAuth";
@@ -13,6 +13,13 @@ import { useLeads } from "../hooks/useLeads";
 const createVehicle = httpsCallable(functions, "createVehicle");
 const updateVehicle = httpsCallable(functions, "updateVehicle");
 const deleteVehicle = httpsCallable(functions, "deleteVehicle");
+
+function mensagemDePermissao(err: unknown): string | null {
+  if (err instanceof FunctionsError && err.code === "functions/permission-denied") {
+    return "Esta conta não tem permissão de administrador.";
+  }
+  return null;
+}
 
 const vazio = {
   name: "", year: "", km: "", price: "", status: "",
@@ -82,12 +89,20 @@ function Painel() {
 
   const carregar = async () => {
     setACarregar(true);
-    const snap = await getDocs(collection(db, "vehicles"));
-    setLista(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Vehicle, "id">) })));
-    setACarregar(false);
+    try {
+      const snap = await getDocs(collection(db, "vehicles"));
+      setLista(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Vehicle, "id">) })));
+    } finally {
+      setACarregar(false);
+    }
   };
 
-  useEffect(() => { carregar(); }, []);
+  useEffect(() => {
+    carregar().catch((err) => {
+      console.error(err);
+      setMsg("Não foi possível carregar o stock.");
+    });
+  }, []);
 
   const alterar = (campo: string) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -101,6 +116,7 @@ function Painel() {
 
     setAGravar(true);
     setMsg("");
+    let gravou = false;
     try {
       const dados: Record<string, unknown> = { ...form };
       dados.images = form.images.split("\n").map((s) => s.trim()).filter(Boolean);
@@ -121,12 +137,25 @@ function Painel() {
         limpar();
       }
       invalidateVehiclesCache();
+      gravou = true;
+    } catch (err) {
+      console.error(err);
+      setMsg(mensagemDePermissao(err) ?? "Não foi possível gravar. Verifique a ligação.");
+    } finally {
+      setAGravar(false);
+    }
+
+    if (!gravou) return;
+
+    try {
       await carregar();
     } catch (err) {
       console.error(err);
-      setMsg("Não foi possível gravar. Verifique a ligação.");
-    } finally {
-      setAGravar(false);
+      setMsg((atual) =>
+        atual
+          ? `${atual} A lista não atualizou. Recarrega a página antes de gravar outra vez.`
+          : "Não foi possível carregar o stock."
+      );
     }
   };
 
@@ -150,9 +179,17 @@ function Painel() {
       await deleteVehicle({ id: v.id });
       setMsg("Autocaravana removida.");
       invalidateVehiclesCache();
+    } catch (err) {
+      console.error(err);
+      setMsg(mensagemDePermissao(err) ?? "Não foi possível remover.");
+      return;
+    }
+
+    try {
       await carregar();
-    } catch {
-      setMsg("Não foi possível remover.");
+    } catch (err) {
+      console.error(err);
+      setMsg("Autocaravana removida. A lista não atualizou. Recarrega a página antes de gravar outra vez.");
     }
   };
 

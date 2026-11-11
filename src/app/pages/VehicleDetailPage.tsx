@@ -152,7 +152,7 @@ function VehicleDetailPage() {
       : `Olá! Chamo-me ${form.nome.trim()} e gostava de agendar uma visita para ver a ${vehicle.name}.`;
 
     const mensagem = [intro, `O meu contacto: ${form.contacto.trim()}`].join("\n");
-    window.open(whatsappLink(mensagem), "_blank", "noopener,noreferrer");
+    window.location.href = whatsappLink(mensagem);
   };
 
   return (
