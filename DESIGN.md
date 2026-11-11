@@ -101,7 +101,7 @@ Paleta quente e contida — a cor é usada para significar estado (disponibilida
 - **Tinta** (`#000000`, `ink`): a cor de ação da interface — botões primários, texto de navegação ativo, véu sobre as fotos grandes da home. Usada também com opacidade decrescente (`/60` a `/80`) como hierarquia de texto secundário sobre fundos claros — nunca mais clara que `/60` em texto que precise de ser lido (ver a Regra do Piso de Contraste, abaixo).
 
 ### Secondary
-- **Dourado Poeirento** (`#C2A07A`, `dourado-poeirento`): o acento de marca. Usado com moderação: na etiqueta "Brevemente", no cartão de contacto "Tem interesse?" de cada autocaravana disponível, e como fundo sólido da faixa "Venha ver com calma. Decida sem pressa." na home. É o único bloco de cor da home que não é foto. Porque o dourado é claro, todo o texto sobre ele é escuro (`text-black/80` ou `text-black/70`), nunca branco.
+- **Dourado Poeirento** (`#C2A07A`, `dourado-poeirento`): o acento de marca. Usado com moderação: na etiqueta "Brevemente", no cartão de contacto "Tem interesse?" de cada autocaravana disponível, e como tinta suave (`/30`) nos círculos dos ícones dos selos da home. Não é usado como fundo de secção: a faixa dourada lisa da home foi retirada (lia-se a laranja e a vazio). Porque o dourado é claro, todo o texto sobre ele é escuro (`text-black/80` ou `text-black/70`), nunca branco.
 
 ### Tertiary
 - **Verde Floresta** (`#2f7d4f`, `verde-floresta`): estado "para venda"/"disponível" — etiquetas de stock, ícones de confirmação, destaques de sucesso.
@@ -129,7 +129,7 @@ Paleta quente e contida — a cor é usada para significar estado (disponibilida
 
 ### Hierarchy
 - **Display** (500, Playfair Display): um título por página. Na home é "Autocaravanas usadas na Covilhã", a `2.6rem` no telemóvel, `text-6xl` em tablet e `5.25rem` em ecrã largo, leading 1.02, tracking -0.02em. No stock é "Autocaravanas usadas". Os outros cabeçalhos usam Inter medium.
-- **Statement** (500, Inter, `2.5rem` → `text-5xl` → `4.25rem`, leading 1.02, tracking -0.03em): só a frase da faixa dourada da home. É grande para ser lida de relance, mas não é serif, para não roubar o acento único ao hero.
+- **Statement** (500, Inter, `2.5rem` → `text-5xl` → `3.75rem`, leading 1.04, tracking -0.03em): só a frase "Venha ver com calma. Decida sem pressa." da home, em duas tintas: a primeira frase a `ink`, a segunda a `black/60`, cada uma na sua linha. Não é serif, para não roubar o acento único ao hero.
 - **Section** (500, Inter, `text-3xl` → `2.75rem`, tracking -0.02em): o cabeçalho "Não somos um stand grande" da home.
 - **Headline** (500, `text-3xl md:text-4xl`, Inter): título de página quando não leva o acento serif (ex: detalhe do veículo, contactos, vender).
 - **Title** (500, `text-xl`/`text-2xl`, Inter): cabeçalhos de secção e cartão ("Descrição", "Tem interesse?").
@@ -143,11 +143,11 @@ Paleta quente e contida — a cor é usada para significar estado (disponibilida
 
 Contentores centrados com larguras máximas por tipo de página: `max-w-2xl` para páginas legais (Privacidade, Termos), `max-w-5xl` para formulários (Contactos, Vender), `max-w-7xl` para o stock e a home. Gutter horizontal consistente `px-6 lg:px-10`. Ritmo vertical de secção `py-16 md:py-24`.
 
-A home segue esta ordem, cada bloco com o seu fundo: foto grande com o título (escura), bloco de boas-vindas (papel), faixa "Venha ver com calma. Decida sem pressa." (dourado sólido), três cartões Stock, Vender e Contactos (papel quente) e quatro selos com factos do produto (papel, com ícones Lucide num círculo papel quente). Secções da home com `py-20 md:py-28`.
+A home segue esta ordem, cada bloco com o seu fundo: foto grande com o título (escura), bloco de boas-vindas (papel), secção da frase "Venha ver com calma. Decida sem pressa." com foto (papel quente), três cartões Stock, Vender e Contactos (papel) e quatro selos com factos do produto (papel quente, ícones Lucide num círculo dourado a 30%). Secções da home com `py-20 md:py-28`.
 
 - **Hero:** foto real a toda a largura, `h-[min(calc(100svh-4rem),860px)]` com mínimo de 520px. Um véu em gradiente só na base (`from-black/85`) dá contraste ao texto sem escurecer o céu da foto. O título e os dois botões ("Ver autocaravanas" e "Falar por WhatsApp") ficam em baixo à esquerda, alinhados com o contentor. Sem etiqueta por cima do título.
 - **Boas-vindas:** foto real à esquerda (7 de 12 colunas, `aspect-[4/3]`, sombra suave), texto à direita, com o primeiro parágrafo maior (`text-lg`) como entrada.
-- **Faixa:** a frase em Statement à esquerda e o botão preto "Marcar visita" (para /contactos) alinhado à base, à direita. No telemóvel empilha.
+- **Frase com foto:** espelho das boas-vindas, para as duas secções seguidas não repetirem a composição. A frase em Statement à esquerda (5 de 12 colunas), com o botão preto "Marcar visita" (para /contactos) logo por baixo; à direita uma foto real grande (7 colunas, `aspect-[4/3]`, sombra Convite). No telemóvel: frase, botão, foto. A foto é o único momento da home (taste-skill `picture-develops`, look `film`): ao entrar no ecrã revela-se uma vez, de uma cópia pálida a cinzento até à cor, em cerca de 1,6 s. Com movimento reduzido, sem script ou se o loader falhar, a foto aparece logo. O loader e o momento estão copiados do kit em `public/assets/moments/` e são montados pela própria `HomePage` (não pelo `index.html`).
 - **Cartões:** a foto preenche o cartão inteiro (`aspect-[4/5]` em ecrã largo, mínimo 300px no telemóvel), com o texto branco por cima de um véu em gradiente na base. As fotos dos cartões são sempre autocaravanas reais da família, nunca imagens de banco. O stock é uma lista: foto, marca, nome, ano, quilómetros, preço e "Ver detalhes". Uma autocaravana vendida fica na lista com o selo "Vendida" e sem preço. Os filtros continuam ao lado, em ecrã largo, e por cima, no telemóvel.
 
 ## Elevation & Depth
@@ -173,12 +173,12 @@ Cantos generosamente arredondados em toda a parte — nada no site usa cantos vi
 ## Components
 
 ### Buttons
-- **Shape:** `rounded-xl` (12px) na maioria; `rounded-full` em todos os botões da home (hero e faixa).
+- **Shape:** `rounded-xl` (12px) na maioria; `rounded-full` em todos os botões da home (hero e frase com foto).
 - **Primary:** fundo `ink` (#000000), texto `paper`, `font-medium`, padding `py-3.5` (14px vertical). Hover: `bg-black/85`.
 - **WhatsApp:** fundo `#25D366`, **texto preto** (o branco sobre este verde não passa o contraste), ícone `MessageCircle` inline. Hover: `#20bd5a`. Nunca usa outra cor — ver a Regra do Verde Emprestado.
 - **Ghost/Secondary:** fundo transparente, borda `border-black/15` (ou `border-white/30` sobre fundo escuro), texto `ink`/`paper` consoante o fundo. Usado para ações secundárias ("Cancelar", "Fazer Proposta").
 - **Hover/Focus:** transição de cor no hover; na home os botões afundam para `scale-[0.98]` ao carregar (nada com movimento reduzido). Foco visível: contorno de 2px com 4px de afastamento, branco sobre fotos, preto sobre fundos claros e dourado.
-- **Entrada:** o bloco de texto do hero sobe 12px uma vez ao abrir a página (sem começar invisível, nada com movimento reduzido). É o único movimento automático da home.
+- **Entrada:** o bloco de texto do hero sobe 12px uma vez ao abrir a página (sem começar invisível, nada com movimento reduzido). É o único movimento automático da home além do momento da foto da frase.
 
 ### Badges (estado do stock)
 - **Style:** `rounded-full`, texto maiúsculas `text-[0.6875rem]` com `tracking-wider`, padding `px-3 py-1.5`.

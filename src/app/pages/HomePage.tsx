@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Wrench } from "lucide-react";
 import { usePageTitle } from "../hooks/usePageTitle";
@@ -56,9 +57,40 @@ const FOCO = "focus-visible:outline-2 focus-visible:outline-offset-4";
 // Botões: mudam de cor no hover e afundam um pouco ao carregar
 const PRESSAO = "active:scale-[0.98] transition-[background-color,transform] duration-150 motion-reduce:active:scale-100";
 
+// Loader dos momentos do taste-skill, copiado do kit para public/assets/moments.
+// Fica fora do bundle do Vite de propósito: é servido tal como está.
+const LOADER_MOMENTOS = "/assets/moments/moments.js";
+
+type Momentos = {
+  mount: (el: HTMLElement) => Promise<unknown>;
+  unmountAll: (root: ParentNode) => void;
+};
+
 function HomePage() {
   usePageTitle();
   useStructuredData(DADOS_ESTRUTURADOS);
+  const fotoVisita = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = fotoVisita.current;
+    if (!el) return;
+    // Sem isto o loader montaria tudo sozinho; aqui montamos só esta foto, ao abrir a home
+    (window as unknown as { __momentsManual: boolean }).__momentsManual = true;
+    let momentos: Momentos | null = null;
+    let ativo = true;
+    import(/* @vite-ignore */ LOADER_MOMENTOS)
+      .then((m: Momentos) => {
+        momentos = m;
+        if (ativo) return m.mount(el);
+      })
+      .catch(() => {
+        // Sem o momento, a foto fica simplesmente como está
+      });
+    return () => {
+      ativo = false;
+      if (el.parentElement) momentos?.unmountAll(el.parentElement);
+    };
+  }, []);
 
   return (
     <>
@@ -133,22 +165,41 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#C2A07A] py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row md:items-end md:justify-between gap-10">
-          <h2 className="text-black text-[2.5rem] sm:text-5xl lg:text-[4.25rem] font-medium leading-[1.02] tracking-[-0.03em] max-w-[15ch] text-balance">
-            Venha ver com calma. Decida sem pressa.
-          </h2>
-          <Link
-            to="/contactos"
-            className={`self-start md:self-auto shrink-0 inline-flex items-center gap-2 bg-black text-white text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-black/85 ${PRESSAO} focus-visible:outline-black ${FOCO}`}
+      <section className="bg-[#f4f4f2] py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-5">
+            <h2 className="text-[2.5rem] sm:text-5xl lg:text-[3.75rem] font-medium leading-[1.04] tracking-[-0.03em] text-balance">
+              <span className="block text-black">Venha ver com calma.</span>
+              <span className="block text-black/60">Decida sem pressa.</span>
+            </h2>
+            <Link
+              to="/contactos"
+              className={`mt-10 inline-flex items-center gap-2 bg-black text-white text-[0.9375rem] font-medium px-7 py-3.5 rounded-full hover:bg-black/85 ${PRESSAO} focus-visible:outline-black ${FOCO}`}
+            >
+              Marcar visita
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </div>
+          {/* Momento "picture-develops" (taste-skill): a foto revela-se uma vez ao entrar no ecrã */}
+          <figure
+            ref={fotoVisita}
+            data-moment="picture-develops"
+            data-moment-opts='{"look": "film"}'
+            className="lg:col-span-7 aspect-[4/3] rounded-2xl overflow-hidden bg-[#1c1c1c] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_24px_48px_-24px_rgba(0,0,0,0.35)]"
           >
-            Marcar visita
-            <ArrowRight size={16} aria-hidden="true" />
-          </Link>
+            <img
+              src="/images/ford_laika/ford_laika_3.webp"
+              alt="Traseira da Ford Laika, num largo com a serra ao fundo"
+              width={1024}
+              height={768}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </figure>
         </div>
       </section>
 
-      <section className="bg-[#f4f4f2] py-20 md:py-28">
+      <section className="bg-white py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 md:grid-cols-3 gap-5">
           {CARTOES.map((cartao) => (
             <Link
@@ -181,11 +232,11 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="bg-white border-t border-black/10">
+      <section className="bg-[#f4f4f2] border-t border-black/10">
         <ul className="max-w-7xl mx-auto px-6 lg:px-10 py-12 md:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-8">
           {SELOS.map(({ texto, Icone }) => (
             <li key={texto} className="flex items-center gap-4 text-black text-[0.9375rem] font-medium leading-snug">
-              <span className="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#f4f4f2] text-black">
+              <span className="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#C2A07A]/30 text-black">
                 <Icone size={20} strokeWidth={1.75} aria-hidden="true" />
               </span>
               {texto}
