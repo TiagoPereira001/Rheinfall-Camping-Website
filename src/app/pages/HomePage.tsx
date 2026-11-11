@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Pause, Play, Wrench } from "lucide-react";
+import { ArrowRight, Camera, Handshake, MapPin, MessageCircle, Pause, Play, Tag } from "lucide-react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useStructuredData } from "../hooks/useStructuredData";
 import { WHATSAPP_NUMBER, LOCATION, whatsappLink } from "../data/config";
@@ -10,7 +10,7 @@ const DADOS_ESTRUTURADOS = {
   "@type": "AutoDealer",
   name: "RheinfallCamping",
   description:
-    "Compra e venda de autocaravanas usadas na zona da Covilhã. Mais de 10 anos a preparar cada veículo antes de vender.",
+    "Compra e venda de autocaravanas usadas na zona da Covilhã. Há mais de 10 anos.",
   url: "https://rheinfallcamping.pt",
   telephone: `+${WHATSAPP_NUMBER}`,
   address: {
@@ -23,7 +23,7 @@ const DADOS_ESTRUTURADOS = {
 
 const SELOS = [
   { texto: "Mais de 10 anos na Covilhã", Icone: MapPin },
-  { texto: "Preparada como se fosse nossa", Icone: Wrench },
+  { texto: "Só compra e venda", Icone: Tag },
   { texto: "Atendimento direto, sem pressão", Icone: Handshake },
   { texto: "Fotos reais de cada autocaravana", Icone: Camera },
 ];
@@ -208,10 +208,10 @@ function HomePage() {
             </h2>
             <div className="space-y-5 max-w-[60ch]">
               <p className="text-black/80 text-lg leading-relaxed">
-                Isto começou com um gosto pessoal: o de pegar numa autocaravana e partir sem direção. Com o tempo, esse gosto tornou-se num projeto — comprar, preparar e vender autocaravanas há mais de 10 anos na zona da Covilhã.
+                Isto começou com um gosto pessoal: o de pegar numa autocaravana e partir sem direção. Com o tempo, esse gosto tornou-se num projeto — comprar e vender autocaravanas há mais de 10 anos na zona da Covilhã.
               </p>
               <p className="text-black/70 text-[0.9375rem] leading-relaxed">
-                Antes de vender, cada autocaravana é preparada como se fosse para nós. Por dentro e por fora, o objetivo é sempre o mesmo: que o próximo dono receba algo que nós próprios teríamos orgulho em usar.
+                O que está no site é o que está à venda. A visita, na Covilhã, serve para ver o veículo como ele é.
               </p>
               <p className="text-black/70 text-[0.9375rem] leading-relaxed">
                 Aqui falamos diretamente, sem pressão e sem surpresas. A visita é presencial e por marcação. O site serve para ver e para marcar essa conversa.

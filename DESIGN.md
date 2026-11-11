@@ -80,7 +80,7 @@ components:
 
 **Creative North Star: "O Quintal da Família"**
 
-Este não é um showroom — é o quintal de uma família que há mais de 10 anos compra, prepara e vende autocaravanas na Covilhã. O sistema visual evita qualquer brilho de stand grande ou linguagem de vendas agressiva: sem gradientes brilhantes, sem selos de "oferta imperdível", sem urgência artificial. A confiança vem de blocos de cor sólida (preto, branco, dourado) e texto direto, não de polimento corporativo.
+Este não é um showroom — é o quintal de uma família que há mais de 10 anos compra e vende autocaravanas na Covilhã. Não há serviço de reparação nem oficina. O sistema visual evita qualquer brilho de stand grande ou linguagem de vendas agressiva: sem gradientes brilhantes, sem selos de "oferta imperdível", sem urgência artificial. A confiança vem de blocos de cor sólida (preto, branco, dourado) e texto direto, não de polimento corporativo.
 
 O sistema é predominantemente plano hoje — só duas sombras existem em todo o código (o menu móvel e o cartão "Tem interesse?"). A profundidade visual vem de contraste de cor, não de elevação. Confirmado com o utilizador: a direção para trabalho futuro é introduzir mais profundidade tátil (sombras suaves, cantos generosos) para que botões e cartões pareçam **suaves e convidativos**, não apenas sólidos.
 

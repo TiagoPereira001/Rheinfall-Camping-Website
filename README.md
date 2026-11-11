@@ -11,7 +11,7 @@ Site de compra e venda de autocaravanas usadas, na zona da Covilhã.
 - **Catálogo de stock** com filtros por preço, ano e marca, e paginação
 - **Página por autocaravana** com galeria de fotos, especificações e equipamento
 - **Estados de venda** — para venda, brevemente, vendida
-- **Contactos** — formulários que abrem o WhatsApp com a mensagem já preenchida
+- **Contactos** — o formulário abre o WhatsApp com a mensagem já preenchida
 - **Página de compra** — quem quer vender uma autocaravana submete os dados
 - **Área interna** (`/admin`) — gestão de stock com login, incluindo upload de fotos
 
@@ -36,7 +36,7 @@ Site de compra e venda de autocaravanas usadas, na zona da Covilhã.
 
 ## Correr localmente
 
-Requisitos: Node.js 18 ou superior.
+Requisitos: Node.js 22.
 
 ```bash
 npm install

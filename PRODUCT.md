@@ -23,7 +23,7 @@ Mostrar as autocaravanas usadas disponíveis (compra e venda), de forma honesta 
 Negócio familiar de compra e venda de autocaravanas, com mais de 10 anos de experiência na zona da Covilhã. O que os distingue de um stand grande:
 
 - atendimento direto, sem pressão de vendas e sem surpresas;
-- cada autocaravana é preparada antes de vender como se fosse para uso próprio da família;
+- só compra e venda — não há reparação, oficina nem manutenção para clientes;
 - pequenos e locais por escolha — "Não somos um stand grande e não queremos ser."
 
 Confirmado pelo utilizador que este posicionamento já está completo — nada a acrescentar.
@@ -33,7 +33,7 @@ A estrutura das páginas públicas (hero, boas-vindas, faixa, três cartões, se
 ## Operating Context
 
 - Visitas são sempre presenciais e por marcação prévia — nunca instantâneas.
-- WhatsApp é o canal de contacto principal: os formulários do site (contacto, proposta, venda) abrem o WhatsApp com uma mensagem já escrita, em vez de enviar algo diretamente.
+- WhatsApp é o canal de contacto principal. Os formulários de contacto e de proposta abrem o WhatsApp com a mensagem já escrita. O formulário de `/vender` grava o pedido por Cloud Function e só depois oferece o WhatsApp.
 - O catálogo (`vehicles`) é público e lido diretamente do Firestore; todas as escritas (veículos, pedidos de venda, upload de fotos) passam por Cloud Functions com validação e rate limiting — nunca escrita direta do browser.
 - Fotos das autocaravanas são alojadas na Cloudinary, com upload assinado (só o admin consegue enviar).
 - Site alojado na Cloudflare Pages; publica automaticamente a cada `git push` para `main`.
@@ -41,6 +41,7 @@ A estrutura das páginas públicas (hero, boas-vindas, faixa, três cartões, se
 ## Capabilities and Constraints
 
 - **Nunca se torna uma loja online.** Confirmado explicitamente pelo utilizador: sem pagamentos, sem reservas, sem checkout — as visitas continuam sempre presenciais, por marcação. Esta é uma regra de negócio para manter, não apenas o estado atual.
+- **Não há reparação.** O negócio é só compra e venda de autocaravanas usadas. Não escrever "reparar", "reparamos", "oficina" ou "reparação", nem usar um ícone de chave de oficina como se houvesse esse serviço.
 - Não existe registo público de contas — o acesso a `/admin` é criado manualmente na consola do Firebase, um único administrador.
 - Site inteiramente em português (nomes de variáveis/funções no código também, ver `CLAUDE.md`).
 - Sem pagamentos, sem carrinho, sem gestão de encomendas — fora de âmbito por definição do negócio, não só por ainda não ter sido construído.
@@ -61,7 +62,7 @@ A estrutura das páginas públicas (hero, boas-vindas, faixa, três cartões, se
 ## Product Principles
 
 1. **Direto e sem pressão vence volume.** Cada decisão de produto deve ler-se como pessoal, não corporativa — nunca introduzir táticas de urgência, upsell agressivo ou linguagem de "stand grande".
-2. **Cada autocaravana é tratada como se fosse para a família.** A honestidade na descrição (estado, equipamento, preço) importa mais do que tornar tudo parecer perfeito.
+2. **Descrever como está.** A honestidade na descrição (estado, equipamento, preço) importa mais do que tornar tudo parecer perfeito. Não há reparação para "deixar como nova".
 3. **O site inicia a conversa, nunca a fecha.** Todo o caminho de conversão termina em WhatsApp/contacto — nunca construir pagamento, reserva ou checkout.
 4. **Pequenos e locais por escolha.** Crescer em escala não é um objetivo; simplicidade para o administrador (não técnico) vence funcionalidades avançadas.
 5. **Confiança presencial acima de transação online.** Fotos e descrições têm de ser honestas porque a visita real é sempre a prova final.

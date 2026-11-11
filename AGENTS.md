@@ -33,3 +33,4 @@
 - Não reintroduzir `src/app/components/ui/` nem `components/figma/` (template shadcn/figma morto, removido de propósito) nem reinstalar os pacotes Radix/MUI/etc. que dependiam deles
 - `react` e `react-dom` são `dependencies` diretas — não voltar a movê-los para `peerDependencies`
 - `.env.local` nunca vai para o git (está no `.gitignore`); chaves do Firebase aí não são secretas — a proteção real são as regras do Firestore + as Cloud Functions
+- O negócio é só compra e venda. Não há reparação nem oficina. Não reintroduzir "reparar", "reparamos", "oficina" ou "reparação" no site nem nos `.md`
