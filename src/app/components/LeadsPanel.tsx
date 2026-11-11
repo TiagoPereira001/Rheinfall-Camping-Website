@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { FunctionsError, httpsCallable } from "firebase/functions";
+import { FunctionsError } from "firebase/functions";
 import { Trash2, Check, Clock } from "lucide-react";
-import { functions } from "../lib/firebase";
-import type { Lead } from "../hooks/useLeads";
+import { apagarLead, marcarLeadTratado, type Lead } from "../hooks/useLeads";
 
-const setLeadTratado = httpsCallable(functions, "setLeadTratado");
-const deleteLead = httpsCallable(functions, "deleteLead");
 
 function dataLegivel(l: Lead) {
   if (!l.criadoEm) return "";
@@ -35,7 +32,7 @@ function LeadsPanel({ leads, aCarregar, erro, recarregar }: Props) {
   const alternarTratado = async (l: Lead) => {
     setErroAcao("");
     try {
-      await setLeadTratado({ id: l.id, tratado: !l.tratado });
+      await marcarLeadTratado({ id: l.id, tratado: !l.tratado });
       recarregar();
     } catch (err) {
       console.error(err);
@@ -47,7 +44,7 @@ function LeadsPanel({ leads, aCarregar, erro, recarregar }: Props) {
     if (!confirm(`Apagar o pedido de ${l.nome || "sem nome"}?`)) return;
     setErroAcao("");
     try {
-      await deleteLead({ id: l.id });
+      await apagarLead({ id: l.id });
       recarregar();
     } catch (err) {
       console.error(err);

@@ -12,6 +12,10 @@ export type Lead = {
 
 const listLeads = httpsCallable<void, Lead[]>(functions, "listLeads");
 
+export const marcarLeadTratado = httpsCallable<{ id: string; tratado: boolean }>(functions, "setLeadTratado");
+export const apagarLead = httpsCallable<{ id: string }>(functions, "deleteLead");
+export const enviarPedidoVenda = httpsCallable<Omit<Lead, "id" | "tratado" | "criadoEm">>(functions, "submitLead");
+
 export function useLeads() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [aCarregar, setACarregar] = useState(true);

@@ -1,25 +1,12 @@
 import { useState, useRef } from "react";
 import { Upload, X } from "lucide-react";
-import { FunctionsError, httpsCallable } from "firebase/functions";
-import { functions } from "../lib/firebase";
+import { FunctionsError } from "firebase/functions";
+import { pedirAssinaturaFoto } from "../hooks/useVehicles";
 
 type Props = {
   urls: string[];
   onChange: (urls: string[]) => void;
 };
-
-type AssinaturaUpload = {
-  apiKey: string;
-  cloudName: string;
-  folder: string;
-  publicId: string;
-  signature: string;
-  tags: string;
-  timestamp: number;
-  uploadPreset: string;
-};
-
-const pedirAssinatura = httpsCallable<void, AssinaturaUpload>(functions, "createVehicleUpload");
 
 function ImageUploader({ urls, onChange }: Props) {
   const [aEnviar, setAEnviar] = useState(false);
@@ -28,9 +15,7 @@ function ImageUploader({ urls, onChange }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const enviarUma = async (ficheiro: File): Promise<string> => {
-    // A assinatura vem da Cloud Function (só para admins) — a api_secret
-    // da Cloudinary nunca chega ao browser
-    const { data: assinatura } = await pedirAssinatura();
+    const { data: assinatura } = await pedirAssinaturaFoto();
 
     const dados = new FormData();
     dados.append("file", ficheiro);

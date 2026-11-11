@@ -26,7 +26,7 @@
 ## Restrições críticas
 - **Nunca `git push` sem confirmação explícita** — dispara deploy automático em produção
 - **Escritas em `vehicles`/`leads` passam sempre por Cloud Functions** (`createVehicle`, `updateVehicle`, `deleteVehicle`, `submitLead`, `setLeadTratado`, `deleteLead`, `createVehicleUpload`) — nunca voltar a escrever direto no Firestore a partir do browser (`addDoc`/`updateDoc`/`deleteDoc`); o Firestore está de propósito fechado a isso (ver `firestore.rules`)
-- Depois de `createVehicle`/`updateVehicle`/`deleteVehicle` (em `AdminPage.tsx`), chamar sempre `invalidateVehiclesCache()` (de `useVehicles.ts`) — senão o stock público fica com dados desatualizados
+- As escritas de veículos passam sempre por `criarVeiculo`/`atualizarVeiculo`/`apagarVeiculo` (de `useVehicles.ts`), que já chamam `invalidateVehiclesCache()` — nunca chamar `createVehicle`/`updateVehicle`/`deleteVehicle` diretamente, senão o stock público fica com dados desatualizados
 - Região das Cloud Functions é `europe-west1` — `getFunctions(app, "europe-west1")` em `lib/firebase.ts` tem de corresponder sempre à `REGION` em `functions/src/index.ts`
 - Nunca `firebase deploy --only firestore:rules` nem `--only functions` sem confirmar o conteúdo antes — infraestrutura partilhada de produção
 - Secrets das functions (`RATE_LIMIT_SALT`, `CLOUDINARY_CONFIG`) vivem no Secret Manager do Firebase — nunca em código, `.env`, ou como argumento visível

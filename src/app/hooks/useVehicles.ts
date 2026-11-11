@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { db } from "../lib/firebase";
+import { httpsCallable } from "firebase/functions";
+import { db, functions } from "../lib/firebase";
 
 export type Vehicle = {
   id: string;
@@ -81,6 +82,49 @@ export function invalidateVehiclesCache() {
   cache = null;
   cacheEm = 0;
 }
+
+// ---------------------------------------------------------------
+// Escritas do admin (Cloud Functions). Cada uma limpa a cache logo
+// a seguir, para o stock público nunca ficar desatualizado.
+// ---------------------------------------------------------------
+const createVehicle = httpsCallable(functions, "createVehicle");
+const updateVehicle = httpsCallable(functions, "updateVehicle");
+const deleteVehicle = httpsCallable(functions, "deleteVehicle");
+
+export async function criarVeiculo(dados: Record<string, unknown>) {
+  await createVehicle(dados);
+  invalidateVehiclesCache();
+}
+
+export async function atualizarVeiculo(id: string, dados: Record<string, unknown>) {
+  await updateVehicle({ id, dados });
+  invalidateVehiclesCache();
+}
+
+export async function apagarVeiculo(id: string) {
+  await deleteVehicle({ id });
+  invalidateVehiclesCache();
+}
+
+// Lista do admin: sempre lida de novo, sem esperar pelos 5 minutos da cache
+export function lerTodosVeiculos() {
+  invalidateVehiclesCache();
+  return carregarVeiculos();
+}
+
+export type AssinaturaUpload = {
+  apiKey: string;
+  cloudName: string;
+  folder: string;
+  publicId: string;
+  signature: string;
+  tags: string;
+  timestamp: number;
+  uploadPreset: string;
+};
+
+// A assinatura vem da Cloud Function (só para admins): a api_secret da Cloudinary nunca chega ao browser
+export const pedirAssinaturaFoto = httpsCallable<void, AssinaturaUpload>(functions, "createVehicleUpload");
 
 export function useVehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>(cache ?? []);

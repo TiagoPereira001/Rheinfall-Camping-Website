@@ -105,6 +105,7 @@ function StockPage() {
     return OPCOES_PRECO.map((opcao, i) => ({ ...opcao, i })).filter((opcao) => {
       if (opcao.i === 0) return true;
       return vehicles.some((v) => {
+        if (v.status === "vendida") return false;
         const p = parseNumero(v.price);
         return p !== null && p >= opcao.min && p <= opcao.max;
       });
@@ -118,8 +119,12 @@ function StockPage() {
       const preco = parseNumero(v.price);
       const anoVeiculo = parseNumero(v.year);
 
-      // Se o campo não tiver valor, não excluímos o veículo por causa dele
-      const precoOk = preco === null || (preco >= faixaPreco.min && preco <= faixaPreco.max);
+      // Se o campo não tiver valor, não excluímos o veículo por causa dele.
+      // Uma vendida não mostra preço, por isso sai quando há um escalão escolhido.
+      const precoOk =
+        precoIdx === 0 ||
+        (v.status !== "vendida" &&
+          (preco === null || (preco >= faixaPreco.min && preco <= faixaPreco.max)));
       const anoOk = ano === "" || anoVeiculo === null || String(anoVeiculo) === ano;
       const marcaOk = marcas.length === 0 || marcas.includes(marcaDoNome(v.name));
 

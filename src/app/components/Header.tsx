@@ -47,7 +47,8 @@ function Header() {
         <button
           className="md:hidden text-black p-1 -mr-1 hover:opacity-50 transition-opacity"
           onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>

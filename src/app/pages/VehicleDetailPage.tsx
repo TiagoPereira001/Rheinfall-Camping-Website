@@ -79,14 +79,14 @@ function VehicleDetailPage() {
   const nextPhoto = () => setPhotoIndex((i) => (i + 1) % gallery.length);
   const prevPhoto = () => setPhotoIndex((i) => (i - 1 + gallery.length) % gallery.length);
 
-  // Navegação da galeria por teclado — só liga quando o lightbox está
-  // aberto, para não roubar as setas à página em uso normal.
+  // Teclado na galeria ampliada — só liga quando o lightbox está aberto,
+  // para não roubar as setas à página. O Esc fecha sempre, mesmo com uma foto.
   useEffect(() => {
-    if (!lightboxAberto || !hasMultiple) return;
+    if (!lightboxAberto) return;
     const aoTeclar = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") nextPhoto();
-      else if (e.key === "ArrowLeft") prevPhoto();
-      else if (e.key === "Escape") setLightboxAberto(false);
+      if (e.key === "Escape") setLightboxAberto(false);
+      else if (hasMultiple && e.key === "ArrowRight") nextPhoto();
+      else if (hasMultiple && e.key === "ArrowLeft") prevPhoto();
     };
     window.addEventListener("keydown", aoTeclar);
     return () => window.removeEventListener("keydown", aoTeclar);

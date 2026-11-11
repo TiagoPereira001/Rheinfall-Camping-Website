@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { CheckCircle2, MessageCircle } from "lucide-react";
-import { httpsCallable, FunctionsError } from "firebase/functions";
-import { functions } from "../lib/firebase";
+import { FunctionsError } from "firebase/functions";
+import { enviarPedidoVenda } from "../hooks/useLeads";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { whatsappLink } from "../data/config";
-
-const submitLead = httpsCallable(functions, "submitLead");
 
 const campoVazio = {
   nome: "",
@@ -45,7 +43,7 @@ function VenderPage() {
 
     setAEnviar(true);
     try {
-      await submitLead({
+      await enviarPedidoVenda({
         nome: form.nome.trim(),
         contacto: form.contacto.trim(),
         marca: form.marca.trim(),

@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { FunctionsError, httpsCallable } from "firebase/functions";
+import { FunctionsError } from "firebase/functions";
 import { LogOut, Plus, Pencil, Trash2, X } from "lucide-react";
-import { db, functions } from "../lib/firebase";
 import { useAuth, AuthProvider } from "../hooks/useAuth";
 import { usePageTitle } from "../hooks/usePageTitle";
-import { invalidateVehiclesCache, type Vehicle } from "../hooks/useVehicles";
+import {
+  apagarVeiculo,
+  atualizarVeiculo,
+  criarVeiculo,
+  lerTodosVeiculos,
+  type Vehicle,
+} from "../hooks/useVehicles";
 import ImageUploader from "../components/ImageUploader";
 import LeadsPanel from "../components/LeadsPanel";
 import { useLeads } from "../hooks/useLeads";
-
-const createVehicle = httpsCallable(functions, "createVehicle");
-const updateVehicle = httpsCallable(functions, "updateVehicle");
-const deleteVehicle = httpsCallable(functions, "deleteVehicle");
 
 function mensagemDePermissao(err: unknown): string | null {
   if (err instanceof FunctionsError && err.code === "functions/permission-denied") {
@@ -90,8 +90,7 @@ function Painel() {
   const carregar = async () => {
     setACarregar(true);
     try {
-      const snap = await getDocs(collection(db, "vehicles"));
-      setLista(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Vehicle, "id">) })));
+      setLista(await lerTodosVeiculos());
     } finally {
       setACarregar(false);
     }
@@ -128,15 +127,14 @@ function Painel() {
       });
 
       if (aEditar) {
-        await updateVehicle({ id: aEditar, dados });
+        await atualizarVeiculo(aEditar, dados);
         setMsg("Autocaravana atualizada.");
         // Não limpamos: continua a editar a mesma, no mesmo sítio
       } else {
-        await createVehicle(dados);
+        await criarVeiculo(dados);
         setMsg("Autocaravana adicionada.");
         limpar();
       }
-      invalidateVehiclesCache();
       gravou = true;
     } catch (err) {
       console.error(err);
@@ -176,9 +174,8 @@ function Painel() {
   const apagar = async (v: Vehicle) => {
     if (!confirm(`Apagar "${v.name}"? Esta ação não pode ser desfeita.`)) return;
     try {
-      await deleteVehicle({ id: v.id });
+      await apagarVeiculo(v.id);
       setMsg("Autocaravana removida.");
-      invalidateVehiclesCache();
     } catch (err) {
       console.error(err);
       setMsg(mensagemDePermissao(err) ?? "Não foi possível remover.");
